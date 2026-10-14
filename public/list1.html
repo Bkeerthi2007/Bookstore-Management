@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Details | Keerthi Book Heaven</title>
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        .book-card {
+            border: 1px solid #c6a54a;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 18px 0;
+            text-align: left;
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .book-card h3 {
+            color: #f3d77a;
+            margin-bottom: 12px;
+        }
+
+        .book-card p {
+            margin: 6px 0;
+        }
+    </style>
+</head>
+<body class="details-page"></body>
+
+<header>
+    <h1>📚 Keerthi Book Heaven</h1>
+    <p>Manage Your Book Collection</p>
+</header>
+
+<nav>
+    <a href="index.html">Home</a>
+    <a href="insert.html">Add Book</a>
+    <a href="list.html">View Books</a>
+    <a href="list1.html">Book Details</a>
+    <a href="search.html">Search</a>
+</nav>
+
+<main>
+    <h2>Book Details</h2>
+    <p>View, update, or delete books from your collection.</p>
+
+    <div id="bookCards">Loading books...</div>
+</main>
+
+<script>
+async function loadBookCards() {
+    const container = document.getElementById("bookCards");
+
+    try {
+        const response = await fetch("/books");
+        const books = await response.json();
+
+        if (!books.length) {
+            container.innerHTML = "<p>No books available.</p>";
+            return;
+        }
+
+        container.innerHTML = books.map(book => `
+            <div class="book-card">
+                <h3>📖 ${book.title}</h3>
+                <p><b>Book ID:</b> ${book.book_id}</p>
+                <p><b>Author:</b> ${book.author}</p>
+                <p><b>Category:</b> ${book.category}</p>
+                <p><b>Price:</b> ₹${book.price}</p>
+                <p><b>Stock:</b> ${book.stock}</p>
+
+                <a class="btn" href="update.html">Update Book</a>
+
+                <form action="/delete" method="POST"
+                      onsubmit="return confirm('Delete this book?')"
+                      style="display:inline">
+                    <input type="hidden" name="book_id"
+                           value="${book.book_id}">
+                    <button class="btn" type="submit">Delete</button>
+                </form>
+            </div>
+        `).join("");
+    } catch (error) {
+        container.innerHTML = "<p>Unable to load books. Check the server.</p>";
+    }
+}
+
+loadBookCards();
+</script>
+
+</body>
+</html>

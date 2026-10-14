@@ -1,0 +1,45 @@
+<!DOCTYPE html><html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Book | Keerthi Book Heaven</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="insert-page"></body>
+    <header>
+        <h1>📚 Keerthi Book Heaven</h1>
+        <p>Add a New Book</p>
+    </header><nav>
+    <a href="index.html">Home</a>
+    <a href="insert.html">Insert</a>
+    <a href="list.html">Book List</a>
+    <a href="search.html">Search</a>
+</nav>
+
+<main>
+    <h2>Insert Book Details</h2>
+
+    <form action="/insert" method="POST">
+        <p><input name="title" placeholder="Book Title" required></p>
+        <p><input name="author" placeholder="Author Name" required></p>
+
+        <p>
+            <select name="category" required>
+                <option value="">Select Category</option>
+                <option>Classic</option>
+                <option>Fiction</option>
+                <option>Self Help</option>
+                <option>Technology</option>
+                <option>Biography</option>
+            </select>
+        </p>
+
+        <p><input type="number" name="price" placeholder="Price" min="0" step="0.01" required></p>
+        <p><input type="number" name="stock" placeholder="Stock" min="0" required></p>
+
+        <button class="btn" type="submit">Add Book</button>
+    </form>
+</main>
+
+</body>
+</html>

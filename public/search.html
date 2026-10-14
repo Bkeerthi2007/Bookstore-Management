@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Books | Keerthi Book Heaven</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Keerthi Book Heaven</h1>
+        <p>Find Your Favourite Book</p>
+    </header>
+
+    <main>
+        <h2>Search Books</h2>
+
+        <input type="text" id="search"
+               placeholder="Enter title or author">
+
+        <button class="btn" onclick="searchBooks()">Search</button>
+
+        <div id="results"></div>
+
+        <p><a href="index.html">Back to Home</a></p>
+    </main>
+
+    <script>
+        async function searchBooks() {
+            const value = document.getElementById("search").value;
+            const response = await fetch(
+                "/books?search=" + encodeURIComponent(value)
+            );
+            const books = await response.json();
+            const results = document.getElementById("results");
+
+            if (books.length === 0) {
+                results.innerHTML = "<p>No books found.</p>";
+                return;
+            }
+
+            results.innerHTML = books.map(book => `
+                <p>
+                    <b>${book.title}</b> — ${book.author}
+                    | Category: ${book.category}
+                    | Price: ₹${book.price}
+                    | Stock: ${book.stock}
+                </p>
+            `).join("");
+        }
+
+        searchBooks();
+    </script>
+</body>
+</html>
